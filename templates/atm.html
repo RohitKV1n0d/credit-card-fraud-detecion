@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+</head>
+
+
+<body>
+  <!-- <div class="container">
+    <div class="center">
+    <div class="row">
+      <div class="col">
+        
+        <div class="card">
+          <div class="card-header">
+            Enter the pin:
+          </div>
+          <div class="card-body">
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-user" id="exampleInputPin" placeholder="Enter the pin" name="pin">
+            </div>
+          </div>
+          <button type="submit"  class="btn btn-primary btn-user btn-block">Enter</button>
+        </div>
+        
+      </div>
+    </div>
+    </div>
+  </div> -->
+  <div id="main">
+    <div id='backgro'></div>
+  </div>
+  <span id="atm">Please Insert Your ATM Card Here<div class="atm" onclick="atm()"><hr class="hr"></div></span>
+  <span id="home">
+    <span class="ti" id="we">Welcome</span><br>
+    <span class='req'>Please Insert Your ATM Card</span>
+  </span>
+  <span id="pin">
+    <input type="password" maxlength="4" placeholder="Type Your Pin" id="pn" ></input><br>
+  <Button class="sub" onclick=pin()>Submit</Button>
+  <button onclick="bac()" id="bac">Back</button>
+  </span>
+  <span id="welcome">
+    <h3>Welcome</h3><span id="name"></span>  
+  </span>
+  <span id="buttons">
+  <button id="withdr" class="btn btn-primary" onclick="bank('with')">Withdrawl</button><br>
+  <button id="deposit" onclick="bank('depo')" class="btn btn-primary">Deposit</button><br>
+  <button id="balance" onclick="bank('balan')"  class="btn btn-primary">Balance Enquiry</button><br>
+    <button id="passw" onclick="bank('pass')"  class="btn btn-primary">Password Change</button>
+  </span>
+  <span id="cash">
+    <input type="number" id="money"></input>
+    <button id="submi" onclick="sub()">Submit</button>
+  <button onclick="back()" id="back">Back</button>
+  </span>
+  <span id="with">Withdrawl</span>
+  <span id="depo">Deposit</span>
+  <span id="balan">Balance</span>
+  <span id="pass">Password</span>
+  <span id="balac"></span>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <style>
+    #main {
+      height: 548px;
+      width: 800px;
+      background-image: url("http://www.completeatmservices.com.au/assets/gallery/9/70.jpeg");
+      background-repeat: no-repeat;
+    }
+    #backgro {
+      position: absolute;
+      left: 160px;
+      top: 70px;
+      height: 380px;
+      width: 590px;
+      background-color: #ddd;
+    }
+    #atm {
+      position: absolute;
+      top: 500px;
+      left: 300px;
+      color: white;
+    }
+    .atm {
+      height: 20px;
+      width: 200px;
+      position: absolute;
+      top: 0px;
+      left: 230px;
+      background-color: white;
+    }
+    .hr {
+      width: 90%;
+      height: 2px;
+      position: absolute;
+      top: -11px;
+      left: 5%;
+      background-color: black;
+    }
+    #home {
+      height: 360px;
+      width: 570px;
+      position: absolute;
+      top: 80px;
+      left: 170px;
+    }
+    .ti {
+      font-size: 50px;
+      color: brown;
+    }
+    .req {
+      font-size: 30px;
+      color: green;
+      position: absolute;
+      top: 200px;
+      left: 110px;
+    }
+    #pin {
+      position: absolute;
+      top: 200px;
+      left: 300px;
+    }
+    #pn {
+      height: 30px;
+      position: absolute;
+      left: 80px;
+    }
+    .sub {
+      position: absolute;
+      top: 100px;
+      left: 230px;
+      height: 30px;
+      width: 100px;
+    }
+    #welcome {
+      position: absolute;
+      height: 380px;
+      width: 590px;
+      top: 70px;
+      left: 160px;
+    }
+    #name {
+      color: Brown;
+      position: absolute;
+      top: 19px;
+      left: 120px;
+      font-size: 20px;
+    }
+    #name:hover {
+      font-size: 30px;
+      color: black;
+      cursor: pointer;
+    }
+    #buttons {
+      position: absolute;
+      top: 200px;
+      left: 200px;
+      height: 200px;
+      width: 550px;
+    }
+    #withdr {
+      background-color: red;
+      width: 200px;
+    }
+    #deposit {
+      position: absolute;
+      width: 200px;
+      left: 300px;
+      top: 0px;
+      background-color: green;
+    }
+    #balance {
+      position: absolute;
+      width: 200px;
+      top: 150px;
+      background-color: #aaa;
+      color: black;
+    }
+    #passw {
+      width: 200px;
+      position: absolute;
+      left: 300px;
+      top: 150px;
+    }
+    #deposit, #withdr, #balance, #passw {
+      transition: 1s;
+    }
+    #deposit:hover, #withdr:hover, #balance:hover, #passw:hover {
+      width: 250px;
+      transition: 1s;
+      font-size: 20px;
+    }
+    #cash {
+      position: absolute;
+      top: 250px;
+      left: 300px;
+    }
+    #with, #depo, #balan, #pass {
+      font-size: 30px;
+      color: brown;
+      position: absolute;
+      top: 180px;
+      left: 200px;
+    }
+    #balac {
+      height: 30px;
+      position: absolute;
+      top: 220px;
+      font-size: 20px;
+      left: 300px;
+    }
+    #bac {
+      height: 30px;
+      width: 100px;
+      position: absolute;
+      top: 100px;
+    }
+    #passw {
+      top: 150px;
+      left: 300px;
+      background-color: white;
+      color: black;
+    }
+    #password {
+      position: absolute;
+      top: 0px;
+    }
+
+    /* .input-field {
+      margin-bottom: 20px;
+    }
+
+    
+    select {
+        width: 200px; 
+      }
+      body{
+          background-color: gray;
+      }
+ 
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+} */
+
+  </style>
+  <script>
+    document.getElementById('home').style.visibility="visible";
+list=["buttons","welcome","pin","depo","balan","cash","balac","with","pass"];
+for (i=0;i<list.length;i++)
+  {
+  document.getElementById(list[i]).style.visibility="hidden";
+  }
+var j="";
+var name="";
+var pass=["3215","4312","5321","5312","7654","9870","7685","1243","1534","1432","1743","1876","1234"];
+var user=["David","Basheer","Bharath","Vijay","Shahinsha","MariYappan","Prakash","Pari Pukhazhenthi","Sivaram","MadhuRamanathan","Rajalingam","Mohana Kavitha","Mrs.Santhi"];
+var cas={
+  "David":"1000",
+  "Basheer":"2500",
+  "Bharath":"1500",
+  "Vijay":"1000",
+  "Shahinsha":"800",
+  "MariYappan":"1200",
+  "Prakash":"900",
+  "Pari Pukhazhenthi":"2000",
+  "Sivaram":"3000",
+  "MadhuRamanathan":"3000",
+  "Rajalingam":"2500",
+  "Mohana Kavitha":"5000",
+  "Mrs.Santhi":"10000",
+}
+function pin()
+{ 
+  var a =document.getElementById('pn').value;
+  if (obj[a]!=undefined)
+    {
+document.getElementById("welcome").style.visibility="visible";
+  document.getElementById("pin").style.visibility="hidden";
+document.getElementById("we").style.visibility="hidden";
+document.getElementById("name").innerHTML=obj[a];     
+name=obj[a];   document.getElementById('buttons').style.visibility="visible";
+document.getElementById('log').style.visibility="visible";
+  document.getElementById('pass').style.visibility="visible";
+  document.getElementById("pin").style.visibility="hidden";
+    }
+  else
+    {
+      alert("Please Give A Correct Pin")
+    }
+}
+function atm()
+{
+  document.getElementById("pn").value="";
+  var a=["pin","we","home","atm","buttons","welcome","submi","back","pass","money","with","depo","balan","balac","password"];
+  for (i=0;i<a.length;i++)
+    {
+      if (i<2)
+        {
+document.getElementById(a[i]).style.visibility="visible";
+        }
+      else
+        {
+     document.getElementById(a[i]).style.visibility="hidden";
+        }
+    }
+}
+function bank(a)
+{
+  var c=["welcome","buttons","cash","money","welcome",a,"back","submi"];
+  for (i=0;i<c.length;i++)
+    {
+     if (i<3)
+     {
+  document.getElementById(c[i]).style.visibility="hidden";
+     }
+      else
+      {     document.getElementById(c[i]).style.visibility="visible";
+      }
+    }
+ if (a=="balan")
+   {
+document.getElementById("balac").style.visibility="visible";
+  document.getElementById("money").style.visibility="hidden";
+ document.getElementById("submi").style.visibility="hidden";
+document.getElementById("balac").innerHTML="Rs."+cas[name];
+   }
+  else if (a=="pass")
+    {
+      document.getElementById("money").style.visibility="hidden";
+  document.getElementById("cash").innerHTML+="<input type='password' maxlength='4' id='password'></input>";     document.getElementById("password").style.visibility="visible";
+    }
+ j=a;
+}
+function sub()
+{
+  var g=Number(document.getElementById("money").value);
+ var h=Number(cas[name]);
+  if (j=="with")
+    {
+      if ((h>g)&&(g>0))
+        {
+          var to=h-g;
+        cas[name]=to;
+          alert("Take Your Money Rs."+g)
+            bac();
+        }
+     else
+        {
+         alert("You Have low Amount Than Your Need");
+        }
+      
+    }
+ else if (j=="depo")
+   {
+    var to=Number(h)+Number(g);
+     cas[name]=to;
+     alert("Deposited Rs."+g+" SuccessFully")
+       bac();
+   }
+  else if (j=="pass")
+    {
+      var i=document.getElementById("password").value;
+      if ((Number(i)>999)&&(Number(i)<10000)&&(pass.indexOf(i)==-1))
+        {
+          var e=user.indexOf(name);
+          pass[e]=i;
+          pas();
+          bac();
+        }
+      else
+       {
+         alert("Please Give a Correct Password")
+       }
+    }
+}
+function back()
+{ 
+  var d=["welcome","buttons",j,"cash","balac","back","submi","money","password"];
+  for (i=0;i<d.length;i++)
+    {
+      if (i<2)
+        {
+  document.getElementById(d[i]).style.visibility="visible";
+        }
+else
+  {
+ document.getElementById(d[i]).style.visibility="hidden";
+  }
+    }
+}
+function bac()
+{
+  var c=["submi","with","back","depo","money","welcome","buttons","pin","pass","cash","atm","we","home"];
+     for (i=0;i<c.length;i++)
+       {      
+         if (i<10)
+           {
+  document.getElementById(c[i]).style.visibility="hidden";
+           }
+         else
+           {    
+ document.getElementById(c[i]).style.visibility="visible";
+           }
+        }
+  document.getElementById("password").style.visibility="hidden";
+  document.getElementById("password").value="";
+  document.getElementById("money").innerHTML="";
+}
+var obj;
+function pas()
+{ obj={};
+  for (i=0;i<pass.length;i++)
+    {
+      obj[pass[i]]=user[i];
+     }
+}
+pas();
+at();
+function at()
+{
+  setInterval(bac,50000)
+}
+  </script>
+      
+
+</body>
+</html>
+
+
+      

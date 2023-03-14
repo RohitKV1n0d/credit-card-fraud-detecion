@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Transaction History</h1>
+                    
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <!--<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <form action="#" method="POST" align="center">
+                                    <h1><u>Form</u></h1>
+                                   
+                                    <!-- <div class="input-field">id  <input type ="text" name="id"></div><br> -->
+                                    <div class="input-field">Transaction Amount <input type ="text" name="amount"></div><br> 
+                                    <div class="input-field">Type <input type ="text" name="type"></div><br> 
+                                    <div class="input-field">Location <input type ="text" name="location"></div><br> 
+                                    <div class="input-field">Balance <input type ="text" name="balance"></div><br> 
+                                    <div class="input-field">Status <input type ="text" name="status"></div><br> 
+                                    
+                                    <!--<div class="input-field">Age <input type ="text" name="age"></div><br>-->
+                                    <button type="submit" value="submit"> SUBMIT </button>
+                                  
+                                  </form>
+                            
+                                </br></br>
+
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction Id</th>
+                                            <th>Transaction Amount</th>
+                                            <th>Type</th>
+                                            <!-- <th>Time</th> -->
+                                            <!-- <th>Date</th> -->
+                                            <th>Location</th>
+                                            <th>Balance</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Transaction Id</th>
+                                            <th>Transaction Amount</th>
+                                            <th>Type</th>
+                                            <!-- <th>Time</th> -->
+                                            <!-- <th>Date</th> -->
+                                            <th>Location</th>
+                                            <th>Balance</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </tfoot>
+                                    
+                                    <tbody>
+                                        {% for trans_history in trans_history  %}
+                                        <tr>
+                                        <td> {{ trans_history.id }} </td>
+                                        <td> {{ trans_history.amount }} </td>
+                                        <td> {{ trans_history.type }} </td>
+                                        <td> {{ trans_history.location }} </td>
+                                        <td> {{ trans_history.balance }} </td>
+                                        <td> {{ trans_history.status }} </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{% endblock %}
+            
+
+
+    
+ 

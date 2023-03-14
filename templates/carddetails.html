@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Transaction History</h1>
+                    
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <!--<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+                                <form action="#" method="POST" align="center">
+                                    <h1><u>Form</u></h1>
+                                
+                                    <!-- <div class="input-field">id  <input type ="text" name="id"></div><br> -->
+                                    <div class="input-field">NAME <input type ="text" name="name"></div><br> 
+                                    <div class="input-field">PIN <input type ="text" name="pin"></div><br> 
+                                    <div class="input-field">CARD NUMBER <input type ="text" name="card_no"></div><br> 
+                                    <div class="input-field">CVV NUMBER <input type ="text" name="cvv_no"></div><br> 
+                                    <div class="input-field">EXPIRY DATE <input type ="text" name="exp_date"></div><br> 
+                                    <div class="input-field">PHONE NUMBER<input type ="text" name="phn_no"></div><br> 
+                                    <!--<div class="input-field">Age <input type ="text" name="age"></div><br>-->
+                                    <button type="submit" value="submit"> SUBMIT </button>
+                                
+                                </form>
+                            </br></br>
+
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>NAME</th>
+                                        <th>PIN</th>
+                                        <th>CARD NUMBER</th>
+                                        <th>CVV NUMBER</th>
+                                        <th>EXPIRY DATE</th>
+                                        <th>PHONE NUMBER</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>NAME</th>
+                                        <th>PIN</th>
+                                        <th>CARD NUMBER</th>
+                                        <th>CVV NUMBER</th>
+                                        <th>EXPIRY DATE</th>
+                                        <th>PHONE NUMBER</th>
+                                    </tr>
+                                </tfoot>
+                                
+                                <tbody>
+                                    {% for new_card in new_card  %}
+                                    <tr>
+                                    <td> {{ new_card.id }} </td>
+                                    <td> {{ new_card.name }} </td>
+                                    <td> {{ new_card.pin }} </td>
+                                    <td> {{ new_card.card_no }} </td>
+                                    <td> {{ new_card.cvv_no }} </td>
+                                    <td> {{ new_card.exp_date }} </td>
+                                    <td> {{ new_card.phn_no }} </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+        
+
+
+
