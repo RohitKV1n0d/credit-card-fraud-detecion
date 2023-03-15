@@ -10,23 +10,38 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <!--<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <div class="center">
+                                                        Balance: <h1>{{current_user.balance}} INR</h1>
+                                                    </div>
+                                                   
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form action="#" method="POST" align="center">
+                                <!-- <form action="#" method="POST" align="center">
                                     <h1><u>Form</u></h1>
                                    
-                                    <!-- <div class="input-field">id  <input type ="text" name="id"></div><br> -->
                                     <div class="input-field">Transaction Amount <input type ="text" name="amount"></div><br> 
                                     <div class="input-field">Type <input type ="text" name="type"></div><br> 
                                     <div class="input-field">Location <input type ="text" name="location"></div><br> 
                                     <div class="input-field">Balance <input type ="text" name="balance"></div><br> 
                                     <div class="input-field">Status <input type ="text" name="status"></div><br> 
                                     
-                                    <!--<div class="input-field">Age <input type ="text" name="age"></div><br>-->
                                     <button type="submit" value="submit"> SUBMIT </button>
                                   
-                                  </form>
+                                  </form> -->
                             
                                 </br></br>
 
@@ -36,8 +51,7 @@
                                             <th>Transaction Id</th>
                                             <th>Transaction Amount</th>
                                             <th>Type</th>
-                                            <!-- <th>Time</th> -->
-                                            <!-- <th>Date</th> -->
+                                            <th>Date & Time</th>
                                             <th>Location</th>
                                             <th>Balance</th>
                                             <th>Status</th>
@@ -48,8 +62,7 @@
                                             <th>Transaction Id</th>
                                             <th>Transaction Amount</th>
                                             <th>Type</th>
-                                            <!-- <th>Time</th> -->
-                                            <!-- <th>Date</th> -->
+                                            <th>Date & Time</th>
                                             <th>Location</th>
                                             <th>Balance</th>
                                             <th>Status</th>
@@ -62,6 +75,7 @@
                                         <td> {{ trans_history.id }} </td>
                                         <td> {{ trans_history.amount }} </td>
                                         <td> {{ trans_history.type }} </td>
+                                        <td> {{ trans_history.datetime }} </td>
                                         <td> {{ trans_history.location }} </td>
                                         <td> {{ trans_history.balance }} </td>
                                         <td> {{ trans_history.status }} </td>
@@ -73,6 +87,7 @@
                         </div>
                     </div>
                 </div>
+                </div>  
 
 {% endblock %}
             

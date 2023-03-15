@@ -1,7 +1,6 @@
 from flask import Flask,render_template,request,url_for,redirect,flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import os
 
 from flask_login import  UserMixin, login_user, LoginManager,login_required, logout_user, current_user
 
@@ -21,6 +20,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(200))
     pwd = db.Column(db.String(100), nullable=False)
     # phone = db.Column(db.Integer, nullable=False)
+    balance = db.Column(db.Integer, nullable=False)
     transactions = db.relationship('Transaction_history', backref='trans')
     creditcard = db.relationship('Card_details', backref='credit')
 
@@ -30,6 +30,7 @@ class Transaction_history(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.String(200), nullable=False)
     type = db.Column(db.String(20), nullable=False)
+    datetime = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     balance = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(50), nullable=False)
@@ -76,7 +77,6 @@ def userprofile():
     return render_template("userprofile.html")
 
 @app.route('/admin',methods=['POST','GET'])
-
 def admin():
     return render_template("admin.html")
 
@@ -140,7 +140,7 @@ def register():
        
         try:
            
-            new_user=User(f_name=f_name, l_name=l_name, username=username, email=email, pwd=pwd)
+            new_user=User(f_name=f_name, l_name=l_name, username=username, email=email, pwd=pwd, balance=10000)
             db.session.add(new_user)    
             db.session.commit()   
             flash('Registration successful!')  
@@ -191,6 +191,7 @@ def carddetails():
         cvv_no=request.form.get('cvv_no')
         exp_date=request.form.get('exp_date')
         phn_no=request.form.get('phn_no')
+        print(name,pin,card_no,cvv_no,exp_date,phn_no)
         new_card=Card_details(name=name,pin=pin,card_no=card_no,cvv_no=cvv_no,exp_date=exp_date,phn_no=phn_no,user_id=current_user.id)
         try:
 
@@ -210,7 +211,7 @@ def online():
         card_no_2=request.form.get('card_no_2')
         card_no_3=request.form.get('card_no_3')
         card_no_4=request.form.get('card_no_4')
-        card_no=card_no_1 + card_no_2 + card_no_3 
+        card_no=card_no_1 + card_no_2 + card_no_3 + card_no_4
         name=request.form.get('name')
         exp_month=request.form.get('exp_month')
         exp_year=request.form.get('exp_year')
@@ -221,27 +222,29 @@ def online():
         try:
             # card=Card_details.query.filter_by(card_no=card_no).first()
             card = Card_details.query.filter_by(card_no=card_no).first() 
+            
             print(str(card.card_no) +' '+ str(card.name) +' '+ str(card.exp_date) +' '+ str(card.cvv_no))
 
 
             if card and cvv_no==str(card.cvv_no):
+                user = User.query.filter_by(id=card.user_id).first()
             # if card and cvv_no==card.cvv_no and exp_date==card.exp_date:
                 # login_user(card)
-                trans_history = Transaction_history.query.filter_by(user_id=card.user_id).first() 
                 # print( str(trans_history.balance) + ' ' + str(trans_history.status))
-                print(trans_history)
-                if trans_history.balance > request.amout:
-                    if card.cvv_no == cvv_no :
+                if int(user.balance) > int(request.form.get("amount")):
                 #code for succses 
-                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=trans_history.balance)
-                        db.session.add(trans_history)
-                        db.session.commit()
+                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                    db.session.add(trans_history)
+                    db.session.commit()
+                    user.balance = int(user.balance) - int(request.form.get("amount"))
+                    db.session.commit()
+                    return redirect(url_for('success'))
                     
-                        return redirect(url_for('success'))
-                    else:
-                        return 'wrong credentials'
                 else:
-                    return 'Low balance'
+                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Failed", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                    db.session.add(trans_history)
+                    db.session.commit()
+                    return render_template('failed.html')
             else:
                 return 'invalid credentials' 
 

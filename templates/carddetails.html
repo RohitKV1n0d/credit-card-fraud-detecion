@@ -13,21 +13,56 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                <div class="container">
+                                    <form  method="POST" >
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <div class="form-group">
+                                                    <label for="categoryName">Name</label>
+                                                    <input type="text" class="form-control" id="title"  placeholder="Enter Name" required name="name">
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="form-group">
+                                                    <label for="categoryName">Phone Number</label>
+                                                    <input type="text" class="form-control" id="title"  placeholder="Enter Phone Number" required name="phn_no">
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="form-group">
+                                                    <label for="categoryName">PIN Number</label>
+                                                    <input type="text" class="form-control" id="title"  placeholder="Enter PIN" required name="pin">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="categoryName">Card Number</label>
+                                                    <input type="text" class="form-control" id="title"  placeholder="0000 0000 0000 0000" required name="card_no">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="categoryName">Expiry Date</label>
+                                                    <input type="text" class="form-control" id="title"  placeholder="MM/YY" required name="exp_date">
+                                                </div>
+                                            </div>
+                                            <div class="col-2"><div class="form-group">
+                                                <label for="categoryName">CVV</label>
+                                                <input type="text" class="form-control" id="title"  placeholder="Enter CVV" required name="cvv_no">
+                                            </div></div>
+                                        </div>
+                                        
+                                        
+                                        
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary" >Add Card</button>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
 
-                                <form action="#" method="POST" align="center">
-                                    <h1><u>Form</u></h1>
-                                
-                                    <!-- <div class="input-field">id  <input type ="text" name="id"></div><br> -->
-                                    <div class="input-field">NAME <input type ="text" name="name"></div><br> 
-                                    <div class="input-field">PIN <input type ="text" name="pin"></div><br> 
-                                    <div class="input-field">CARD NUMBER <input type ="text" name="card_no"></div><br> 
-                                    <div class="input-field">CVV NUMBER <input type ="text" name="cvv_no"></div><br> 
-                                    <div class="input-field">EXPIRY DATE <input type ="text" name="exp_date"></div><br> 
-                                    <div class="input-field">PHONE NUMBER<input type ="text" name="phn_no"></div><br> 
-                                    <!--<div class="input-field">Age <input type ="text" name="age"></div><br>-->
-                                    <button type="submit" value="submit"> SUBMIT </button>
-                                
-                                </form>
+
+                               
                             </br></br>
 
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

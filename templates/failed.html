@@ -1,0 +1,141 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Credit Card</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+</head>
+
+<div class="main-container">
+    <h1>Failed!</h1>
+	<div class="check-container">
+		<div class="check-background">
+			<img src="{{ url_for('static', filename='img/fail.png') }}"  style="max-width: 200px;"  alt="">
+		</div>
+		<div class="check-shadow"></div>
+	</div>
+    <div class="center" align="center">
+        
+        <a href="{{url_for('online')}}" class="btn btn-primary" >New Transaction</a>
+        <a href="{{url_for('history')}}" class="btn btn-secondary" >View History</a>
+        
+    </div>
+</div>
+
+<style>
+    html, body {
+  font-size: 24px;
+}
+.main-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+.check-container {
+  width: 6.25rem;
+  height: 7.5rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.check-container .check-background {
+  width: 100%;
+  height: calc(100% - 1.25rem);
+  background: linear-gradient(to bottom right, #e55d5d00, #a8000000);
+  box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+  transform: scale(0.84);
+  border-radius: 50%;
+  animation: animateContainer 0.75s ease-out forwards 0.75s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+.check-container .check-background svg {
+  width: 65%;
+  transform: translateY(0.25rem);
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: animateCheck 0.35s forwards 1.25s ease-out;
+}
+.check-container .check-shadow {
+  bottom: calc(-15% - 5px);
+  left: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #da494900, transparent);
+  animation: animateShadow 0.75s ease-out forwards 0.75s;
+}
+@keyframes animateContainer {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+  }
+  25% {
+    opacity: 1;
+    transform: scale(0.9);
+    box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+  }
+  43.75% {
+    transform: scale(1.15);
+    box-shadow: 0px 0px 0px 43.334px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+  }
+  62.5% {
+    transform: scale(1);
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 21.667px rgba(255, 255, 255, 0.25) inset;
+  }
+  81.25% {
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+  }
+}
+@keyframes animateCheck {
+  from {
+    stroke-dashoffset: 80;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes animateShadow {
+  0% {
+    opacity: 0;
+    width: 100%;
+    height: 15%;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  43.75% {
+    width: 40%;
+    height: 7%;
+    opacity: 0.35;
+  }
+  100% {
+    width: 85%;
+    height: 15%;
+    opacity: 0.25;
+  }
+}
+
+</style>
