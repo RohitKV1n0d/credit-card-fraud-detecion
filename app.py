@@ -3,12 +3,28 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 from flask_login import  UserMixin, login_user, LoginManager,login_required, logout_user, current_user
-
+import os
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'kjnfiurgfurgfu'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///creditcard.db'
+ENV = 'dev'
+
+if ENV == 'dev' :
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///creditcard.db'
+    app.config['SECRET_KEY'] = 'asdasdasdasdasdasdasdaveqvq34c'
+
+else:
+    app.debug = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+    app.config['SECRET_KEY'] = SECRET_KEY
+    
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 db = SQLAlchemy(app) #db initializing
 
@@ -206,6 +222,11 @@ def carddetails():
        
 @app.route('/online',methods=['POST','GET'])
 def online():
+    if request.args.get('time') and request.args.get('location'):
+        time = int(request.args.get('time'))
+        location = request.args.get('location')
+    print(time,location)
+    from testPredict import predict # predict('Purchase', 100, 12, 'Chennai')
     if request.method=='POST':
         card_no_1=request.form.get('card_no_1')
         card_no_2=request.form.get('card_no_2')
@@ -233,15 +254,22 @@ def online():
                 # print( str(trans_history.balance) + ' ' + str(trans_history.status))
                 if int(user.balance) > int(request.form.get("amount")):
                 #code for succses 
-                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location="online", datetime=datetime.now())  
-                    db.session.add(trans_history)
-                    db.session.commit()
-                    user.balance = int(user.balance) - int(request.form.get("amount"))
-                    db.session.commit()
-                    return redirect(url_for('success'))
+                    if predict('Purchase',request.form.get("amount"),time, location) == 1:
+                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                        db.session.add(trans_history)
+                        db.session.commit()
+                        user.balance = int(user.balance) - int(request.form.get("amount"))
+                        db.session.commit()
+                        return redirect(url_for('success'))
+                    else:
+                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Fraud", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                        db.session.add(trans_history)
+                        db.session.commit()
+                        return render_template('failed.html')
+
                     
                 else:
-                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Failed", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Low Balance", user_id=user.id, type="online", location="online", datetime=datetime.now())  
                     db.session.add(trans_history)
                     db.session.commit()
                     return render_template('failed.html')
