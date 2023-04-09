@@ -246,7 +246,7 @@ def online():
             print(str(card.card_no) +' '+ str(card.name) +' '+ str(card.exp_date) +' '+ str(card.cvv_no))
 
 
-            if card and cvv_no==str(card.cvv_no):
+            if card and cvv_no==str(card.cvv_no) and name==str(card.name):
                 user = User.query.filter_by(id=card.user_id).first()
             # if card and cvv_no==card.cvv_no and exp_date==card.exp_date:
                 # login_user(card)
@@ -255,21 +255,21 @@ def online():
                     print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
                     if predict('Purchase',request.form.get("amount"),time, location) == 0:
-                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
                         user.balance = int(user.balance) - int(request.form.get("amount"))
                         db.session.commit()
                         return redirect(url_for('success'))
                     else:
-                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Fraud", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Fraud", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
                         return render_template('failed.html')
 
                     
                 else:
-                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Low Balance", user_id=user.id, type="online", location="online", datetime=datetime.now())  
+                    trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Low Balance", user_id=user.id, type="online", location=location, datetime=time)  
                     db.session.add(trans_history)
                     db.session.commit()
                     return render_template('failed.html')
