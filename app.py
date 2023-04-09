@@ -59,7 +59,7 @@ class Card_details(db.Model):
     pin = db.Column(db.Integer, nullable=False)
     card_no = db.Column(db.String(200), nullable=False)
     cvv_no = db.Column(db.Integer, nullable=False)
-    exp_date = db.Column(db.Integer, nullable=False)
+    exp_date = db.Column(db.String(200), nullable=False)
     phn_no = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -208,7 +208,7 @@ def carddetails():
         exp_date=request.form.get('exp_date')
         phn_no=request.form.get('phn_no')
         print(name,pin,card_no,cvv_no,exp_date,phn_no)
-        new_card=Card_details(name=name,pin=pin,card_no=card_no,cvv_no=cvv_no,exp_date=exp_date,phn_no=phn_no,user_id=current_user.id)
+        new_card=Card_details(name=name,pin=pin,card_no=str(card_no),cvv_no=cvv_no,exp_date=exp_date,phn_no=phn_no,user_id=current_user.id)
         try:
 
             db.session.add(new_card)    
