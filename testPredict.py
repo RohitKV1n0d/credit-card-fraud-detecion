@@ -34,4 +34,4 @@ def predict(transaction,amount,time,location):
     return prediction[0]
 
 # Run the prediction
-print(predict('Purchase', 100, 12, 'Chennai'))
+# print(predict('Purchase', 100, 12, 'Coimbatore'))

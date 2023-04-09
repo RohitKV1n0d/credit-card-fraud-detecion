@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev' :
     app.debug = True
@@ -156,7 +156,7 @@ def register():
        
         try:
            
-            new_user=User(f_name=f_name, l_name=l_name, username=username, email=email, pwd=pwd, balance=10000)
+            new_user=User(f_name=f_name, l_name=l_name, username=username, email=email, pwd=pwd, balance=100000)
             db.session.add(new_user)    
             db.session.commit()   
             flash('Registration successful!')  
@@ -252,8 +252,9 @@ def online():
                 # login_user(card)
                 # print( str(trans_history.balance) + ' ' + str(trans_history.status))
                 if int(user.balance) > int(request.form.get("amount")):
+                    print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
-                    if predict('Purchase',request.form.get("amount"),time, location) == 1:
+                    if predict('Purchase',request.form.get("amount"),time, location) == 0:
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location="online", datetime=datetime.now())  
                         db.session.add(trans_history)
                         db.session.commit()
