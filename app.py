@@ -60,7 +60,7 @@ class Card_details(db.Model):
     card_no = db.Column(db.String(200), nullable=False)
     cvv_no = db.Column(db.Integer, nullable=False)
     exp_date = db.Column(db.String(200), nullable=False)
-    phn_no = db.Column(db.Integer, nullable=False)
+    phn_no = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     
@@ -210,7 +210,6 @@ def carddetails():
         print(name,pin,card_no,cvv_no,exp_date,phn_no)
         new_card=Card_details(name=name,pin=pin,card_no=str(card_no),cvv_no=cvv_no,exp_date=exp_date,phn_no=phn_no,user_id=current_user.id)
         try:
-
             db.session.add(new_card)    
             db.session.commit()     
             return redirect(url_for('carddetails'))
