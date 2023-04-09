@@ -52,7 +52,6 @@ scikit-learn==1.2.2
 scipy==1.10.1
 seaborn==0.12.2
 six==1.16.0
-sklearn==0.0.post1
 SQLAlchemy==2.0.6
 threadpoolctl==3.1.0
 typing_extensions==4.5.0
