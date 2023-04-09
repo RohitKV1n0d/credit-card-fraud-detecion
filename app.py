@@ -57,7 +57,7 @@ class Card_details(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     pin = db.Column(db.Integer, nullable=False)
-    card_no = db.Column(db.Integer, nullable=False)
+    card_no = db.Column(db.String(200), nullable=False)
     cvv_no = db.Column(db.Integer, nullable=False)
     exp_date = db.Column(db.Integer, nullable=False)
     phn_no = db.Column(db.Integer, nullable=False)
