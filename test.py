@@ -68,7 +68,7 @@ import random
 # Set random seed for reproducibility
 random.seed(42)
 
-# Define sample sizes
+# Define sample sizes /
 total_samples = 1000
 fraud_samples = total_samples // 2
 non_fraud_samples = total_samples - fraud_samples
