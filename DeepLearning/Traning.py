@@ -62,6 +62,9 @@ precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
 conf_mat = confusion_matrix(y_test, y_pred)
+print('\n')
+print('\n')
+print('\n')
 print('======================================== Performance Metrics ======================================== ')
 
 print(f'Accuracy: {accuracy}')
@@ -69,4 +72,30 @@ print(f'Precision: {precision}')
 print(f'Recall: {recall}')
 print(f'F1-score: {f1}')
 print(f'Confusion Matrix:\n {conf_mat}')
+print('\n')
+print('\n')
+input("Press Enter to continue...")
+
+import matplotlib.pyplot as plt
+
+history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.1)
+
+# Plot training & validation accuracy values
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()
+
+# Plot training & validation loss values
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()
+
 
