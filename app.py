@@ -4,10 +4,18 @@ from datetime import datetime
 
 from flask_login import  UserMixin, login_user, LoginManager,login_required, logout_user, current_user
 import os
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.message import EmailMessage
+import ssl
+
+
 app = Flask(__name__)
 
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev' :
     app.debug = True
@@ -70,8 +78,24 @@ def exp_month(self):
     
 @property
 def exp_year(self):
-    return str(self.exp_date)[2:]    
+    return str(self.exp_date)[2:]   
 
+def sendMail(body, subject, recipient):
+    sender = 'testsmsforwarding@gmail.com'
+    # recipient = 'recipient@example.com'
+    em = EmailMessage()
+    em['From'] = sender
+    em['To'] = recipient
+    em['Subject'] = subject
+    em.set_content(body) 
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                    server.login(sender, 'ecfsoddwklwpsefq')
+                    server.sendmail(sender, recipient, em.as_string())
+
+    print("Email sent successfully!")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -255,16 +279,21 @@ def online():
                     print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
                     if predict('Purchase',request.form.get("amount"),time, location) == 0:
+                        recipient = user.email
+                        balance=int(user.balance) - int(request.form.get("amount"))
+                        amount = request.form.get("amount")
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
                         user.balance = int(user.balance) - int(request.form.get("amount"))
                         db.session.commit()
+                        sendMail(f'Successfully Debited {amount}, Your Balance is {balance}', f'INR {amount} Debited from your account.', recipient)
                         return redirect(url_for('success'))
                     else:
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Fraud", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
+                        sendMail('A Fraud Transaction has been detected in your account', 'FRAUD DETECTED!!!', recipient)
                         return render_template('failed.html')
 
                     
@@ -272,6 +301,7 @@ def online():
                     trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Low Balance", user_id=user.id, type="online", location=location, datetime=time)  
                     db.session.add(trans_history)
                     db.session.commit()
+                    sendMail('Low Balance', f'Your Balance is {user.balance}', recipient)
                     return render_template('failed.html')
             else:
                 return 'invalid credentials' 
