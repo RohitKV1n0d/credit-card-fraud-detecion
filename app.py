@@ -15,7 +15,7 @@ import ssl
 app = Flask(__name__)
 
 
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev' :
     app.debug = True
