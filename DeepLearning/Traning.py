@@ -44,7 +44,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss=BinaryCrossentropy(), metrics=['accuracy'])
 
 # Train the model
-model.fit(X_train, y_train, epochs=20, batch_size=32, validation_split=0.1)
+history = model.fit(X_train, y_train, epochs=3, batch_size=32, validation_split=0.1)
 
 # Evaluate the model on the testing set
 loss, accuracy = model.evaluate(X_test, y_test)
@@ -78,7 +78,7 @@ input("Press Enter to continue...")
 
 import matplotlib.pyplot as plt
 
-history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.1)
+# history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.1)
 
 # Plot training & validation accuracy values
 plt.plot(history.history['accuracy'])
