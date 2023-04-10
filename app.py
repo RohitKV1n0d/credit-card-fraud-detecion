@@ -278,8 +278,8 @@ def online():
                 if int(user.balance) > int(request.form.get("amount")):
                     print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
+                    recipient = user.email
                     if predict('Purchase',request.form.get("amount"),time, location) == 0:
-                        recipient = user.email
                         balance=int(user.balance) - int(request.form.get("amount"))
                         amount = request.form.get("amount")
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
