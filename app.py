@@ -11,11 +11,14 @@ from email.mime.multipart import MIMEMultipart
 from email.message import EmailMessage
 import ssl
 
+from DeepLearning.testPredictCNN import predict # predict('Purchase', 100, 12, 'Chennai')
+
+
 
 app = Flask(__name__)
 
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev' :
     app.debug = True
@@ -249,7 +252,6 @@ def online():
         time = int(request.args.get('time'))
         location = request.args.get('location')
     print(time,location)
-    from testPredict import predict # predict('Purchase', 100, 12, 'Chennai')
     if request.method=='POST':
         card_no_1=request.form.get('card_no_1')
         card_no_2=request.form.get('card_no_2')
@@ -279,7 +281,7 @@ def online():
                     print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
                     recipient = user.email
-                    if predict('Purchase',request.form.get("amount"),time, location) == 0:
+                    if predict('Purchase',request.form.get("amount"),time, location):
                         balance=int(user.balance) - int(request.form.get("amount"))
                         amount = request.form.get("amount")
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
