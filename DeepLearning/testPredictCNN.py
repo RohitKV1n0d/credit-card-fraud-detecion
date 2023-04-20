@@ -4,10 +4,10 @@ from keras.models import load_model
 from sklearn.preprocessing import OneHotEncoder
 
 # Load the trained model
-model = load_model('cnn_ann_model.h5')
+model = load_model('DeepLearning/cnn_ann_model.h5')
 
 # Load the original dataset
-data = pd.read_csv('sample_transactions.csv')
+data = pd.read_csv('DeepLearning/sample_Datasets.csv')
 X = data.drop(['Fraudulent'], axis=1)
 
 # Prepare the OneHotEncoder for categorical features
@@ -19,8 +19,8 @@ def predict(transaction, amount, time_of_day, location):
     # Sample inputs
     sample_inputs = pd.DataFrame({
         'Transaction': [transaction],
-        'Amount': [amount],
-        'Time of Day': [time_of_day],
+        'Amount': [int(amount)],
+        'Time of Day': [int(time_of_day)],
         'Location': [location]
     })
 

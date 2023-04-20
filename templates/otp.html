@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <title>OTP</title>
+</head>
+<body>
+
+   <div class="container" >
+    <div class="center" >
+        <h1>Suspicious Activity Please Enter OTP</h1>
+        <p style="color: rgba(0, 128, 0, 0.335);">OTP sent to {{ email }}</p>
+    <form id="myForm">
+        <input type="text" name="field1" maxlength="1" />
+        <input type="text" name="field2" maxlength="1" />
+        <input type="text" name="field3" maxlength="1" />
+        <input type="text" name="field4" maxlength="1" />
+        <input type="text" name="field5" maxlength="1" />
+        <input type="text" name="field6" maxlength="1" />
+        <button type="submit" class="btn btn-primary">submit</button>
+      </form>
+    </div>
+   </div>
+
+      <script>
+        $(document).ready(function() {
+  $('input[name^=field]').keydown(function(event) {
+    // Allow only digits
+    if (event.keyCode < 48 || event.keyCode > 57) {
+      event.preventDefault();
+    }
+    
+    // Move to the next input field
+    var maxLength = $(this).attr('maxlength');
+    if ($(this).val().length >= maxLength) {
+      $(this).next('input').focus();
+    }
+  });
+  
+  $('#myForm').submit(function(event) {
+    // Prevent the form from submitting normally
+    event.preventDefault();
+    
+    // Combine the values from the input fields into a single string
+    var otpValue = $('input[name=field1]').val() + $('input[name=field2]').val() + $('input[name=field3]').val() + $('input[name=field4]').val() + $('input[name=field5]').val() + $('input[name=field6]').val();
+    console.log('OTP value: ' + otpValue);
+    // Send the OTP to a URL
+    if (otpValue == "{{otp}}") {
+        console.log('OTP matched');
+        // Sent post request a wrl with data
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: "{{url_for('verifyOTP', user_id=user_id, amount=amount, balance=balance, recipient=recipient, location=location, time=time)}}", // user_id, amount, balance, recipient, location, time
+            dataType : 'json',
+            data: JSON.stringify({"Status": true}),
+            success: function(data) {
+                console.log(data);
+            }
+        });
+        // redirect to the next page
+
+    } else {
+        console.log('OTP not matched');
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: "{{url_for('verifyOTP', user_id=user_id, amount=amount, balance=balance, recipient=recipient, location=location, time=time)}}", // user_id, amount, balance, recipient, location, time
+            dataType : 'json',
+            data: JSON.stringify({"Status": false}),
+            success: function(data) {
+                console.log(data);
+            }
+        });
+        window.location.href = "{{url_for('failed')}}";
+        // redirect to the next page
+        
+        
+    }
+
+     
+
+  });
+});
+
+      </script>
+
+      <style>
+        .center {
+            position: fixed;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+}
+        input[name^=field] {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+/* on Hover */
+input[name^=field]:hover {
+    border: 1px solid #333;
+}
+
+      </style>
+    
+</body>
+</html>

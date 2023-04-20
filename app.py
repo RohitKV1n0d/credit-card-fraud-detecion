@@ -245,6 +245,24 @@ def carddetails():
             return str(e)
     new_card = Card_details.query.filter_by(user_id=current_user.id).all()
     return render_template("carddetails.html", new_card=new_card)
+
+
+
+def send_otp_via_mail():
+    # generate OTP
+    import random
+    otp = random.randint(100000, 999999)
+    try:
+        email = current_user.email
+    except:
+        email = None
+    if email is None:
+        email = 'anjanapaul0614@gmail.com'
+    sendMail('OTP for your transaction : {otp}'.format(otp=otp), 'Fraud Detected: OTP', email)
+    return otp
+
+
+
        
 @app.route('/online',methods=['POST','GET'])
 def online():
@@ -277,13 +295,14 @@ def online():
             # if card and cvv_no==card.cvv_no and exp_date==card.exp_date:
                 # login_user(card)
                 # print( str(trans_history.balance) + ' ' + str(trans_history.status))
+                recipient = user.email
                 if int(user.balance) > int(request.form.get("amount")):
                     print('predict : '+ str(predict('Purchase',request.form.get("amount"),time, location)))
                 #code for succses 
-                    recipient = user.email
-                    if predict('Purchase',request.form.get("amount"),time, location):
-                        balance=int(user.balance) - int(request.form.get("amount"))
-                        amount = request.form.get("amount")
+                    
+                    balance=int(user.balance) - int(request.form.get("amount"))
+                    amount = request.form.get("amount")
+                    if predict('Purchase',int(request.form.get("amount")),time, location):
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
@@ -292,11 +311,10 @@ def online():
                         sendMail(f'Successfully Debited {amount}, Your Balance is {balance}', f'INR {amount} Debited from your account.', recipient)
                         return redirect(url_for('success'))
                     else:
-                        trans_history = Transaction_history(amount=request.form.get("amount"), balance=user.balance, status="Fraud", user_id=user.id, type="online", location=location, datetime=time)  
-                        db.session.add(trans_history)
-                        db.session.commit()
-                        sendMail('A Fraud Transaction has been detected in your account', 'FRAUD DETECTED!!!', recipient)
-                        return render_template('failed.html')
+                        # user_id, amount, balance, recipient, location, time
+                        return redirect(url_for('otp', user_id=user.id, amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), recipient=recipient, location=location, time=time))
+
+                        
 
                     
                 else:
@@ -316,13 +334,55 @@ def online():
             # return render_template('login.html')
     return render_template('online.html')
 
-  
+import json
+OTP = "00"
+@app.route('/otp/<user_id>/<amount>/<balance>/<recipient>/<location>/<time>',methods=['POST','GET'])
+def otp(user_id, amount, balance, recipient, location, time):
+    
+    OTP = send_otp_via_mail()
+    print(OTP)
+    try:
+        email = current_user.email
+    except:
+        email = None
+    if email is None:
+        email = 'anjanapaul0614@gmail.com'
+    email=email[:1]+'******'+email[10:]
+    return render_template('otp.html', email=email, otp=OTP, user_id=user_id, amount=amount, balance=balance, recipient=recipient, location=location, time=time)
 
-	
-		
+
+@app.route('/verifyOTP/<user_id>/<amount>/<balance>/<recipient>/<location>/<time>',methods=['POST','GET'])
+def verifyOTP(user_id, amount, balance, recipient, location, time):
+    if request.method=='POST':
+            recipient = recipient if "%" not in recipient else recipient.replace("%", "@")
+            print("POST REQUEST")
+            data = request.get_json()
+            status = data['Status']
+            # print("RECIVED OTP : "+otp)
+            user = User.query.filter_by(id=user_id).first()
+            if status:
+                trans_history = Transaction_history(amount=amount, balance=int(user.balance) - int(amount), status="success", user_id=user.id, type="online", location=location, datetime=time)  
+                db.session.add(trans_history)
+                db.session.commit()
+                user.balance = int(user.balance) - int(amount)
+                db.session.commit()
+                sendMail(f'Successfully Debited {amount}, Your Balance is {balance}', f'INR {amount} Debited from your account.', recipient)
+                return redirect(url_for('success'))
+            else:
+                trans_history = Transaction_history(amount=amount, balance=user.balance, status="Fraud", user_id=user.id, type="online", location=location, datetime=time)  
+                db.session.add(trans_history)
+                db.session.commit()
+                sendMail('A Fraud Transaction has been detected in your account', 'FRAUD DETECTED!!!', recipient)
+                return redirect(url_for('failed'))
 
 
-            
+
+
+
+
+@app.route('/failed')
+def failed():
+    return render_template('failed.html')
                     
 
 
