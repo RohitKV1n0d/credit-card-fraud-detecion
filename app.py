@@ -11,7 +11,7 @@ from email.mime.multipart import MIMEMultipart
 from email.message import EmailMessage
 import ssl
 
-from DeepLearning.testPredictCNN import predict # predict('Purchase', 100, 12, 'Chennai')
+from testPredict import predict # predict('Purchase', 100, 12, 'Chennai')
 
 
 
@@ -302,7 +302,7 @@ def online():
                     
                     balance=int(user.balance) - int(request.form.get("amount"))
                     amount = request.form.get("amount")
-                    if predict('Purchase',int(request.form.get("amount")),time, location):
+                    if predict('Purchase',int(request.form.get("amount")),time, location) == 0:
                         trans_history = Transaction_history(amount=request.form.get("amount"), balance=int(user.balance) - int(request.form.get("amount")), status="success", user_id=user.id, type="online", location=location, datetime=time)  
                         db.session.add(trans_history)
                         db.session.commit()
@@ -383,7 +383,3 @@ def verifyOTP(user_id, amount, balance, recipient, location, time):
 @app.route('/failed')
 def failed():
     return render_template('failed.html')
-                    
-
-
-   
