@@ -288,9 +288,11 @@ def online():
             card = Card_details.query.filter_by(card_no=card_no).first() 
             
             print(str(card.card_no) +' '+ str(card.name) +' '+ str(card.exp_date) +' '+ str(card.cvv_no))
+            # card.exp_date = 01/24
+            convert_date_to_datetime_format= datetime.strptime(str(card.exp_date), '%m/%y')
 
 
-            if card and cvv_no==str(card.cvv_no) and name==str(card.name):
+            if card and cvv_no==str(card.cvv_no) and name==str(card.name) and exp_date==convert_date_to_datetime_format:
                 user = User.query.filter_by(id=card.user_id).first()
             # if card and cvv_no==card.cvv_no and exp_date==card.exp_date:
                 # login_user(card)
